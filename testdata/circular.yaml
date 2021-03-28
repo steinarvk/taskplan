@@ -1,0 +1,9 @@
+tasks:
+- name: egg
+  duration: 1
+  worker: chicken
+  requires: chicken
+- name: chicken
+  duration: 1
+  requires: egg
+  worker: egg

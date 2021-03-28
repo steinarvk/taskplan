@@ -3,6 +3,8 @@ import json
 import time
 import typing
 
+from pydantic import BaseModel
+
 from dataclasses import dataclass
 
 from typing import List, Dict, Optional, Tuple
@@ -10,40 +12,34 @@ from typing import List, Dict, Optional, Tuple
 from ortools.sat.python import cp_model  # type: ignore
 
 
-@dataclass
-class Task:
+class Task(BaseModel):
     name: str
     duration: int
     workers: List[str]
     requires: List[str]
 
 
-@dataclass
-class Worker:
+class Worker(BaseModel):
     name: str
 
 
-@dataclass
-class TaskSolution:
+class TaskSolution(BaseModel):
     task_name: str
     worker_name: str
     start: int
     end: int
 
 
-@dataclass
-class SolverParams:
+class SolverParams(BaseModel):
     time_seconds: float
 
 
-@dataclass
-class SolutionMetadata:
+class SolutionMetadata(BaseModel):
     params: SolverParams
     solver_time_seconds: float
 
 
-@dataclass
-class Solution:
+class Solution(BaseModel):
     tasks: Dict[str, TaskSolution]
     workers: Dict[str, List[TaskSolution]]
     total_duration: int
@@ -89,7 +85,7 @@ def calculate_plan(
 ) -> Solution:
     params = params or DEFAULT_SOLVER_PARAMS
     workers = workers or [
-        Worker(s) for s in sorted(set([w for task in tasks for w in task.workers]))
+        Worker(name=s) for s in sorted(set([w for task in tasks for w in task.workers]))
     ]
 
     tasks = _toposort_tasks(tasks)

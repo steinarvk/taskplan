@@ -3,37 +3,45 @@ from .planner import *
 
 def test_planning():
     example_tasks = [
-        Task("install_linux", duration=4, workers=["alice"], requires=[]),
+        Task(name="install_linux", duration=4, workers=["alice"], requires=[]),
         Task(
-            "clean_windows", duration=1, workers=["alice"], requires=["install_windows"]
+            name="clean_windows",
+            duration=1,
+            workers=["alice"],
+            requires=["install_windows"],
         ),
-        Task("install_windows", duration=4, workers=["bob"], requires=[]),
+        Task(name="install_windows", duration=4, workers=["bob"], requires=[]),
         Task(
-            "install_curtains",
+            name="install_curtains",
             duration=4,
             workers=["alice", "bob"],
             requires=["install_windows"],
         ),
         Task(
-            "install_docker",
+            name="install_docker",
             duration=4,
             workers=["alice", "carol"],
             requires=["install_linux"],
         ),
         Task(
-            "write_application",
+            name="write_application",
             duration=16,
             workers=["alice", "carol"],
             requires=["install_linux"],
         ),
         Task(
-            "run_app",
+            name="run_app",
             duration=4,
             workers=["alice", "carol"],
             requires=["write_application", "install_docker"],
         ),
-        Task("test_app", duration=4, workers=["david"], requires=["run_app"]),
-        Task("fix_app", duration=10, workers=["alice", "carol"], requires=["test_app"]),
+        Task(name="test_app", duration=4, workers=["david"], requires=["run_app"]),
+        Task(
+            name="fix_app",
+            duration=10,
+            workers=["alice", "carol"],
+            requires=["test_app"],
+        ),
     ]
 
     workers = ("alice", "bob", "carol", "david")

@@ -1,65 +1,42 @@
-from .planner import *
-from .render import *
+import click
+import sys
+import yaml
+import json
+import enum
 
-if __name__ == "__main__":
-    import sys
+from . import parse
+from . import render
+from . import planner
 
-    example_tasks = [
-        Task("install_linux", duration=4, workers=["alice"], requires=[]),
-        Task(
-            "clean_windows", duration=1, workers=["alice"], requires=["install_windows"]
-        ),
-        Task("install_windows", duration=4, workers=["bob"], requires=[]),
-        Task(
-            "install_curtains",
-            duration=4,
-            workers=["alice", "bob"],
-            requires=["install_windows"],
-        ),
-        Task(
-            "install_docker",
-            duration=4,
-            workers=["alice", "carol"],
-            requires=["install_linux"],
-        ),
-        Task(
-            "write_application",
-            duration=16,
-            workers=["alice", "carol"],
-            requires=["install_linux"],
-        ),
-        Task(
-            "run_app",
-            duration=4,
-            workers=["alice", "carol"],
-            requires=["write_application", "install_docker"],
-        ),
-        Task("test_app", duration=4, workers=["david"], requires=["run_app"]),
-        Task("fix_app", duration=10, workers=["alice", "carol"], requires=["test_app"]),
-    ]
 
-    n = 5
-    if len(sys.argv) > 1:
-        n = int(sys.argv[1])
+@click.group()
+def main():
+    pass
 
-    for i in range(n):
-        example_tasks.append(
-            Task(
-                f"catch_penguin_{i}",
-                duration=3,
-                workers=["alice", "bob", "david", "carol"],
-                requires=[f"catch_penguin_{i-2}"]
-                if i > 200
-                else ["install_linux", "install_windows"],
-            )
-        )
 
-    solution = calculate_plan(
-        example_tasks,
-        params=SolverParams(
-            time_seconds=60,
+OUTPUT_FUNCS = {
+    "text": render.print_console_solution,
+    "html": lambda sol, fp: print(render.render_charts_html(sol), file=fp),
+    "yaml": lambda sol, fp: yaml.dump(sol.dict(), fp),
+    "json": lambda sol, fp: json.dump(sol.dict(), fp, indent="  "),
+}
+
+
+@main.command()
+@click.option("--spec", type=click.File("r"), default="-")
+@click.option("--output", type=click.File("x"), default="-")
+@click.option("--output-format", type=click.Choice(list(OUTPUT_FUNCS)), default="html")
+@click.option("--planning-time", type=float, default=60.0)
+def plan(spec, planning_time, output, output_format):
+    tasks = parse.parse_yaml_to_plannable_tasks(spec.read())
+    solution = planner.calculate_plan(
+        tasks,
+        params=planner.SolverParams(
+            time_seconds=planning_time,
         ),
     )
+    OUTPUT_FUNCS[output_format](solution, output)
 
-    print_console_solution(solution, sys.stderr)
-    print(render_charts_html(solution))
+
+if __name__ == "__main__":
+    main()
