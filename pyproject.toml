@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "taskplan"
-version = "0.1.0"
-description = "Tool for efficiently laying out Gantt charts."
+version = "0.2.0"
+description = "Tool for efficiently laying out Gantt charts and estimating project durations."
 authors = ["Steinar V. Kaldager <steinarvkaldager@gmail.com>"]
 license = "MIT"
 
