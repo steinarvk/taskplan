@@ -1,0 +1,233 @@
+meta:
+  params:
+    time_seconds: 60.0
+  solver_time_seconds: 0.061371564865112305
+optimal: true
+tasks:
+  build-custom-furniture:
+    end: 62
+    start: 52
+    task_name: build-custom-furniture
+    worker_name: charlie
+  build-floors:
+    end: 57
+    start: 47
+    task_name: build-floors
+    worker_name: bob
+  build-load-bearing-walls:
+    end: 47
+    start: 37
+    task_name: build-load-bearing-walls
+    worker_name: charlie
+  build-other-walls:
+    end: 47
+    start: 37
+    task_name: build-other-walls
+    worker_name: bob
+  build-roof:
+    end: 52
+    start: 47
+    task_name: build-roof
+    worker_name: charlie
+  build-scaffolding:
+    end: 37
+    start: 32
+    task_name: build-scaffolding
+    worker_name: bob
+  design-interior:
+    end: 32
+    start: 27
+    task_name: design-interior
+    worker_name: david
+  draw-house:
+    end: 13
+    start: 3
+    task_name: draw-house
+    worker_name: alice
+  estimate-building-costs:
+    end: 23
+    start: 13
+    task_name: estimate-building-costs
+    worker_name: bob
+  estimate-carpentry-costs:
+    end: 23
+    start: 13
+    task_name: estimate-carpentry-costs
+    worker_name: charlie
+  estimate-design-costs:
+    end: 17
+    start: 13
+    task_name: estimate-design-costs
+    worker_name: david
+  estimate-electrical-costs:
+    end: 17
+    start: 13
+    task_name: estimate-electrical-costs
+    worker_name: elaine
+  estimate-moving-costs:
+    end: 17
+    start: 13
+    task_name: estimate-moving-costs
+    worker_name: mindy
+  estimate-plumbing-costs:
+    end: 17
+    start: 13
+    task_name: estimate-plumbing-costs
+    worker_name: peter
+  greenlight-interior:
+    end: 39
+    start: 32
+    task_name: greenlight-interior
+    worker_name: cindy
+  install-electricity:
+    end: 57
+    start: 52
+    task_name: install-electricity
+    worker_name: elaine
+  install-furniture:
+    end: 65
+    start: 62
+    task_name: install-furniture
+    worker_name: charlie
+  install-plumbing:
+    end: 57
+    start: 52
+    task_name: install-plumbing
+    worker_name: peter
+  lay-foundation:
+    end: 32
+    start: 27
+    task_name: lay-foundation
+    worker_name: bob
+  move-personal-belongings:
+    end: 67
+    start: 65
+    task_name: move-personal-belongings
+    worker_name: mindy
+  order-furniture:
+    end: 44
+    start: 39
+    task_name: order-furniture
+    worker_name: cindy
+  sketch-requirements:
+    end: 3
+    start: 0
+    task_name: sketch-requirements
+    worker_name: cindy
+  verify-budget:
+    end: 27
+    start: 23
+    task_name: verify-budget
+    worker_name: frank
+  verify-sound-construction:
+    end: 61
+    start: 57
+    task_name: verify-sound-construction
+    worker_name: alice
+total_duration: 67
+workers:
+  alice:
+  - end: 13
+    start: 3
+    task_name: draw-house
+    worker_name: alice
+  - end: 61
+    start: 57
+    task_name: verify-sound-construction
+    worker_name: alice
+  bob:
+  - end: 23
+    start: 13
+    task_name: estimate-building-costs
+    worker_name: bob
+  - end: 32
+    start: 27
+    task_name: lay-foundation
+    worker_name: bob
+  - end: 37
+    start: 32
+    task_name: build-scaffolding
+    worker_name: bob
+  - end: 47
+    start: 37
+    task_name: build-other-walls
+    worker_name: bob
+  - end: 57
+    start: 47
+    task_name: build-floors
+    worker_name: bob
+  charlie:
+  - end: 23
+    start: 13
+    task_name: estimate-carpentry-costs
+    worker_name: charlie
+  - end: 47
+    start: 37
+    task_name: build-load-bearing-walls
+    worker_name: charlie
+  - end: 52
+    start: 47
+    task_name: build-roof
+    worker_name: charlie
+  - end: 62
+    start: 52
+    task_name: build-custom-furniture
+    worker_name: charlie
+  - end: 65
+    start: 62
+    task_name: install-furniture
+    worker_name: charlie
+  cindy:
+  - end: 3
+    start: 0
+    task_name: sketch-requirements
+    worker_name: cindy
+  - end: 39
+    start: 32
+    task_name: greenlight-interior
+    worker_name: cindy
+  - end: 44
+    start: 39
+    task_name: order-furniture
+    worker_name: cindy
+  david:
+  - end: 17
+    start: 13
+    task_name: estimate-design-costs
+    worker_name: david
+  - end: 32
+    start: 27
+    task_name: design-interior
+    worker_name: david
+  elaine:
+  - end: 17
+    start: 13
+    task_name: estimate-electrical-costs
+    worker_name: elaine
+  - end: 57
+    start: 52
+    task_name: install-electricity
+    worker_name: elaine
+  frank:
+  - end: 27
+    start: 23
+    task_name: verify-budget
+    worker_name: frank
+  mindy:
+  - end: 17
+    start: 13
+    task_name: estimate-moving-costs
+    worker_name: mindy
+  - end: 67
+    start: 65
+    task_name: move-personal-belongings
+    worker_name: mindy
+  peter:
+  - end: 17
+    start: 13
+    task_name: estimate-plumbing-costs
+    worker_name: peter
+  - end: 57
+    start: 52
+    task_name: install-plumbing
+    worker_name: peter

@@ -25,7 +25,7 @@ OUTPUT_FUNCS = {
 @main.command()
 @click.option("--spec", type=click.File("r"), default="-")
 @click.option("--output", type=click.File("x"), default="-")
-@click.option("--output-format", type=click.Choice(list(OUTPUT_FUNCS)), default="html")
+@click.option("--output-format", type=click.Choice(list(OUTPUT_FUNCS)), default="yaml")
 @click.option("--planning-time", type=float, default=60.0)
 def plan(spec, planning_time, output, output_format):
     tasks = parse.parse_yaml_to_plannable_tasks(spec.read())
@@ -35,6 +35,15 @@ def plan(spec, planning_time, output, output_format):
             time_seconds=planning_time,
         ),
     )
+    OUTPUT_FUNCS[output_format](solution, output)
+
+
+@main.command(name="render")
+@click.option("--solution", type=click.File("r"), default="-")
+@click.option("--output", type=click.File("x"), default="-")
+@click.option("--output-format", type=click.Choice(list(OUTPUT_FUNCS)), default="html")
+def render_(solution, output, output_format):
+    solution = planner.Solution.parse_obj(yaml.safe_load(solution))
     OUTPUT_FUNCS[output_format](solution, output)
 
 
