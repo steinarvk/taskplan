@@ -56,6 +56,32 @@ DEFAULT_SOLVER_PARAMS = SolverParams(
 )
 
 
+class CyclicDependenciesError(Exception):
+    pass
+
+
+def _toposort_tasks(tasks: List[Task]) -> List[Task]:
+    rv = []
+    done = set()
+
+    remaining = list(tasks)
+    while remaining:
+        new_remaining = []
+        for task in remaining:
+            unmet = [req for req in task.requires if req not in done]
+            if unmet:
+                new_remaining.append(task)
+            else:
+                rv.append(task)
+                done.add(task.name)
+
+        if len(new_remaining) == len(remaining):
+            raise CyclicDependenciesError("cyclic dependencies")
+        remaining = new_remaining
+
+    return rv
+
+
 def calculate_plan(
     tasks: List[Task],
     workers: Optional[List[Worker]] = None,
@@ -65,6 +91,8 @@ def calculate_plan(
     workers = workers or [
         Worker(s) for s in sorted(set([w for task in tasks for w in task.workers]))
     ]
+
+    tasks = _toposort_tasks(tasks)
 
     tasks_by_name = {task.name: i for i, task in enumerate(tasks)}
     workers_by_name = {w.name: i for i, w in enumerate(workers)}
@@ -248,11 +276,11 @@ if __name__ == "__main__":
     import sys
 
     example_tasks = [
-        Task("install_windows", duration=4, workers=["bob"], requires=[]),
         Task("install_linux", duration=4, workers=["alice"], requires=[]),
         Task(
             "clean_windows", duration=1, workers=["alice"], requires=["install_windows"]
         ),
+        Task("install_windows", duration=4, workers=["bob"], requires=[]),
         Task(
             "install_curtains",
             duration=4,
