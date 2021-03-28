@@ -20,8 +20,8 @@ def render_charts_table(solution: Solution) -> List[Tuple[str, str, int, int]]:
         (
             task.worker_name,
             task.task_name,
-            task.start * 3600 * 1000,
-            task.end * 3600 * 1000,
+            task.start * 1000,
+            task.end * 1000,
         )
         for task in solution.tasks.values()
     ]

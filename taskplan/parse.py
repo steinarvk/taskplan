@@ -2,6 +2,7 @@ import yaml
 import collections
 from functools import reduce
 
+from . import dist
 from . import planner
 
 from pydantic import BaseModel, Extra
@@ -9,8 +10,11 @@ from typing import List, Optional, Union, Dict
 
 
 class Task(BaseModel):
+    class Config:
+        arbitrary_types_allowed = True
+
     name: str
-    duration: int
+    duration: dist.Dist
     milestone: List[str]
     worker: List[str]
     requires: List[str]
@@ -28,9 +32,17 @@ class Model(BaseModel):
     workergroups: Dict[str, List[str]]
 
 
+class _RawLogNormalDist(BaseModel):
+    p50: Union[str, int]
+    p95: Union[str, int]
+
+
+_NumberOrDist = Union[int, _RawLogNormalDist]
+
+
 class _RawTask(BaseModel):
     name: str
-    duration: int
+    duration: Union[str, _NumberOrDist]
     milestone: Optional[Union[str, List[str]]]
     worker: Optional[Union[str, List[str]]]
     requires: Optional[Union[str, List[str]]]
@@ -44,6 +56,40 @@ class _RawWorker(BaseModel):
 class _RawModel(BaseModel):
     tasks: List[_RawTask]
     workers: Optional[List[Union[str, _RawWorker]]]
+
+
+def _parse_dist(x: Union[str, _NumberOrDist]) -> dist.Dist:
+    if isinstance(x, str):
+        x = _parse_humanized_duration(x)
+
+    if isinstance(x, int):
+        return dist.Constant(x)
+
+    assert not isinstance(x, float)
+
+    assert isinstance(x, _RawLogNormalDist)
+    return dist.LogNormal(
+        p50=_parse_humanized_duration(x.p50),
+        p95=_parse_humanized_duration(x.p95),
+    )
+
+
+def _parse_humanized_duration(s: Union[str, int]) -> int:
+    if isinstance(s, int):
+        return s
+
+    try:
+        return int(s)
+    except ValueError:
+        pass
+
+    if s[-1] == "h":
+        return int(s[:-1]) * 3600
+
+    if s[-1] == "m":
+        return int(s[:-1]) * 60
+
+    raise ValueError(f"bad duration: {s}")
 
 
 def _parse_comma_string(x: str) -> List[str]:
@@ -152,7 +198,7 @@ def parse_yaml_model(yamldata: str) -> Model:
         tasks.append(
             Task(
                 name=rawtask.name,
-                duration=rawtask.duration,
+                duration=_parse_dist(rawtask.duration),
                 milestone=_convert_to_list(rawtask.milestone),
                 worker=_convert_to_list(rawtask.worker),
                 requires=_convert_to_list(rawtask.requires),
@@ -173,9 +219,6 @@ def parse_yaml_model(yamldata: str) -> Model:
     milestones = _collect_milestones(tasks)
 
     for t in tasks:
-        if t.duration < 0:
-            raise BadModelError(f"task {t.name}: bad duration {t.duration}")
-
         if not t.worker:
             raise BadModelError(f"task {t.name}: no worker or group assigned")
 
@@ -231,7 +274,7 @@ def model_to_plannable_tasks(m: Model) -> List[planner.Task]:
         rv.append(
             planner.Task(
                 name=t.name,
-                duration=t.duration,
+                duration=round(t.duration.mean),
                 workers=eligible_worker_names,
                 requires=requires_task_names,
             )

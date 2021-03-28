@@ -6,10 +6,12 @@ authors = ["Steinar V. Kaldager <steinarvkaldager@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "3.8"
 ortools = "^8.2.8710"
 pydantic = "^1.8.1"
 click = "^7.1.2"
+scipy = "^1.6.2"
+humanize = "^3.3.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.2"

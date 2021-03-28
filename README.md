@@ -32,11 +32,12 @@ $ poetry run python -m taskplan render < examples/house.solution.yaml > viz.html
 
 ## Caveats
 
-Taskplan does its planning in arbitrary work-time units. Whatever unit you
-put in will be the the same unit you get out.
+Taskplan does its planning in arbitrary work-time seconds. (This absurd
+resolution is to allow for some decimals, because the underlying approach is
+_integer_ optimization.)
 
 It does not account for non-work time, holidays, sleep, etc. If trying to
-convert work-time units to a timeline, remember to perform this conversion.
+convert work-time seconds to a timeline, remember to perform this conversion.
 For instance, assuming a 40h work-week, 1 million work-seconds should be
 interpreted as roughly 7 work-weeks. Using 1 million seconds (roughly 12 days)
 as a time estimate will give a blatantly wrong result.
