@@ -26,12 +26,18 @@ class Worker(BaseModel):
 class TaskSolution(BaseModel):
     task_name: str
     worker_name: str
+    requires: List[str]
     start: int
     end: int
 
 
 class SolverParams(BaseModel):
     time_seconds: float
+
+
+class SimResults(BaseModel):
+    simulations: int
+    percentiles: Dict[int, float]
 
 
 class SolutionMetadata(BaseModel):
@@ -45,6 +51,7 @@ class Solution(BaseModel):
     total_duration: int
     optimal: bool
     meta: Optional[SolutionMetadata]
+    simulation: Optional[SimResults]
 
 
 DEFAULT_SOLVER_PARAMS = SolverParams(
@@ -187,6 +194,7 @@ def calculate_plan(
                 worker_name=assigned_worker.name,
                 start=solver.Value(task_start_vars[j]),
                 end=solver.Value(task_end_vars[j]),
+                requires=tasks[j].requires,
             )
         )
 

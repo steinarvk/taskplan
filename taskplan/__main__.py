@@ -4,6 +4,7 @@ import yaml
 import json
 import enum
 
+from . import replay
 from . import parse
 from . import render
 from . import planner
@@ -27,14 +28,18 @@ OUTPUT_FUNCS = {
 @click.option("--output", type=click.File("x"), default="-")
 @click.option("--output-format", type=click.Choice(list(OUTPUT_FUNCS)), default="yaml")
 @click.option("--planning-time", type=float, default=60.0)
-def plan(spec, planning_time, output, output_format):
-    tasks = parse.parse_yaml_to_plannable_tasks(spec.read())
+@click.option("--simulations", type=int, default=10000)
+def plan(spec, planning_time, simulations, output, output_format):
+    model = parse.parse_yaml_model(spec.read())
     solution = planner.calculate_plan(
-        tasks,
+        parse.model_to_plannable_tasks(model),
         params=planner.SolverParams(
             time_seconds=planning_time,
         ),
     )
+    if parse.model_has_uncertainty(model):
+        dists = parse.model_to_duration_distributions(model)
+        solution = replay.attach_simulations(solution, dists, simulations)
     OUTPUT_FUNCS[output_format](solution, output)
 
 

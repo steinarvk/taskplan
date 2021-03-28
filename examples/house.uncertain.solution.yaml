@@ -1,176 +1,279 @@
 meta:
   params:
     time_seconds: 60.0
-  solver_time_seconds: 0.060683250427246094
+  solver_time_seconds: 0.0787503719329834
 optimal: true
-simulation: null
+simulation:
+  percentiles:
+    0: 150908.64129007302
+    1: 184188.2493410628
+    2: 191004.17671999216
+    3: 195313.5230105639
+    4: 198311.75231739643
+    5: 200779.146667132
+    6: 202929.12973907913
+    7: 204949.30540259986
+    8: 206661.7912868699
+    9: 208418.37126796495
+    10: 210085.13777530487
+    11: 211736.78074982425
+    12: 213031.29512044296
+    13: 214548.08514963737
+    14: 216081.24438665505
+    15: 217225.36352068762
+    16: 218532.1186840129
+    17: 219779.56472281812
+    18: 220835.7323126716
+    19: 221825.11388906575
+    20: 222840.45404976056
+    21: 223864.8932198028
+    22: 224921.56523698763
+    23: 225902.3848816494
+    24: 226883.9199271433
+    25: 227759.52705627
+    26: 228732.547554803
+    27: 229753.11112661095
+    28: 230765.30051181896
+    29: 231779.14504511055
+    30: 232674.08529814682
+    31: 233564.53333555275
+    32: 234442.81052663125
+    33: 235248.1633288188
+    34: 236022.83948482986
+    35: 237005.41998138506
+    36: 237807.00313096753
+    37: 238575.1962650469
+    38: 239450.85214245622
+    39: 240354.13393499822
+    40: 241069.5973836585
+    41: 241975.85892446066
+    42: 242876.7091917088
+    43: 243629.28796647006
+    44: 244497.55529883524
+    45: 245347.5547138769
+    46: 246285.47106664683
+    47: 247094.13945501824
+    48: 247914.37531488162
+    49: 248724.35317343916
+    50: 249541.76719850377
+    51: 250472.36135422907
+    52: 251406.01850027053
+    53: 252311.45889452143
+    54: 253151.60778652856
+    55: 253978.13457007383
+    56: 254733.93114406988
+    57: 255461.74501554173
+    58: 256297.80916019948
+    59: 257167.39389948957
+    60: 258163.07831781375
+    61: 259065.23580276198
+    62: 259811.98346678942
+    63: 260612.1175975464
+    64: 261585.5243249215
+    65: 262655.6004410093
+    66: 263470.6518711921
+    67: 264467.13412450184
+    68: 265665.4485871886
+    69: 266714.3337955713
+    70: 267748.97938579833
+    71: 268601.05345126084
+    72: 269874.43848765944
+    73: 271227.7649506632
+    74: 272392.8675108904
+    75: 273518.0299420469
+    76: 274805.46769318514
+    77: 276334.9550928312
+    78: 277803.95571394917
+    79: 279509.78450167336
+    80: 281113.5395974542
+    81: 282596.7638338796
+    82: 284202.21476153785
+    83: 285540.04649683204
+    84: 287137.2761951606
+    85: 288891.43897199363
+    86: 290735.20011872094
+    87: 292880.3901911748
+    88: 294652.34610520495
+    89: 296833.1210919322
+    90: 299033.0248293922
+    91: 301283.32753062184
+    92: 304214.1702519607
+    93: 307448.69440906506
+    94: 311450.52330695
+    95: 316277.99246057164
+    96: 321070.3537174416
+    97: 327606.72406097455
+    98: 336491.1710844856
+    99: 348705.24508846935
+    100: 471455.0891400244
+  simulations: 10000
 tasks:
   build-custom-furniture:
-    end: 223200
+    end: 224255
     requires:
     - greenlight-interior
-    start: 187200
+    start: 204584
     task_name: build-custom-furniture
     worker_name: charlie
   build-floors:
-    end: 205200
+    end: 224254
     requires:
     - build-scaffolding
-    start: 169200
+    start: 184911
     task_name: build-floors
     worker_name: bob
   build-load-bearing-walls:
-    end: 169200
+    end: 184911
     requires:
     - build-scaffolding
-    start: 133200
+    start: 145568
     task_name: build-load-bearing-walls
     worker_name: charlie
   build-other-walls:
-    end: 169200
+    end: 184911
     requires:
     - build-scaffolding
-    start: 133200
+    start: 145568
     task_name: build-other-walls
     worker_name: bob
   build-roof:
-    end: 187200
+    end: 204584
     requires:
     - build-load-bearing-walls
-    start: 169200
+    start: 184913
     task_name: build-roof
     worker_name: charlie
   build-scaffolding:
-    end: 133200
+    end: 145568
     requires:
     - lay-foundation
-    start: 115200
+    start: 125897
     task_name: build-scaffolding
     worker_name: bob
   design-interior:
-    end: 115200
+    end: 125897
     requires:
     - draw-house
     - verify-budget
-    start: 97200
+    start: 106226
     task_name: design-interior
     worker_name: david
   draw-house:
-    end: 46800
+    end: 51146
     requires:
     - sketch-requirements
-    start: 10800
+    start: 11803
     task_name: draw-house
     worker_name: alice
   estimate-building-costs:
-    end: 82800
+    end: 90489
     requires:
     - draw-house
-    start: 46800
+    start: 51146
     task_name: estimate-building-costs
     worker_name: bob
   estimate-carpentry-costs:
-    end: 82800
+    end: 90489
     requires:
     - draw-house
-    start: 46800
+    start: 51146
     task_name: estimate-carpentry-costs
     worker_name: charlie
   estimate-design-costs:
-    end: 61200
+    end: 66883
     requires:
     - draw-house
-    start: 46800
+    start: 51146
     task_name: estimate-design-costs
     worker_name: david
   estimate-electrical-costs:
-    end: 61200
+    end: 66883
     requires:
     - draw-house
-    start: 46800
+    start: 51146
     task_name: estimate-electrical-costs
     worker_name: elaine
   estimate-moving-costs:
-    end: 61200
+    end: 66883
     requires:
     - draw-house
-    start: 46800
+    start: 51146
     task_name: estimate-moving-costs
     worker_name: mindy
   estimate-plumbing-costs:
-    end: 61200
+    end: 66883
     requires:
     - draw-house
-    start: 46800
+    start: 51146
     task_name: estimate-plumbing-costs
     worker_name: peter
   greenlight-interior:
-    end: 140400
+    end: 153437
     requires:
     - design-interior
-    start: 115200
+    start: 125897
     task_name: greenlight-interior
     worker_name: cindy
   install-electricity:
-    end: 205200
+    end: 224255
     requires:
     - build-load-bearing-walls
     - build-other-walls
     - build-roof
-    start: 187200
+    start: 204584
     task_name: install-electricity
     worker_name: elaine
   install-furniture:
-    end: 234000
+    end: 236058
     requires:
     - build-custom-furniture
     - build-load-bearing-walls
     - build-other-walls
     - order-furniture
-    start: 223200
+    start: 224255
     task_name: install-furniture
-    worker_name: charlie
+    worker_name: mindy
   install-plumbing:
-    end: 205200
+    end: 224255
     requires:
     - build-load-bearing-walls
     - build-other-walls
     - build-roof
-    start: 187200
+    start: 204584
     task_name: install-plumbing
     worker_name: peter
   lay-foundation:
-    end: 115200
+    end: 125897
     requires:
     - verify-budget
-    start: 97200
+    start: 106226
     task_name: lay-foundation
     worker_name: bob
   move-personal-belongings:
-    end: 241200
+    end: 247860
     requires:
     - install-electricity
     - install-furniture
     - install-plumbing
     - verify-sound-construction
-    start: 234000
+    start: 239991
     task_name: move-personal-belongings
     worker_name: mindy
   order-furniture:
-    end: 158400
+    end: 173108
     requires:
     - greenlight-interior
-    start: 140400
+    start: 153437
     task_name: order-furniture
     worker_name: cindy
   sketch-requirements:
-    end: 10800
+    end: 11803
     requires: []
     start: 0
     task_name: sketch-requirements
     worker_name: cindy
   verify-budget:
-    end: 97200
+    end: 106226
     requires:
     - estimate-building-costs
     - estimate-carpentry-costs
@@ -178,187 +281,187 @@ tasks:
     - estimate-electrical-costs
     - estimate-moving-costs
     - estimate-plumbing-costs
-    start: 82800
+    start: 90489
     task_name: verify-budget
     worker_name: frank
   verify-sound-construction:
-    end: 219600
+    end: 239991
     requires:
     - build-floors
     - build-load-bearing-walls
     - build-roof
-    start: 205200
+    start: 224254
     task_name: verify-sound-construction
     worker_name: alice
-total_duration: 241200
+total_duration: 247860
 workers:
   alice:
-  - end: 46800
+  - end: 51146
     requires:
     - sketch-requirements
-    start: 10800
+    start: 11803
     task_name: draw-house
     worker_name: alice
-  - end: 219600
+  - end: 239991
     requires:
     - build-floors
     - build-load-bearing-walls
     - build-roof
-    start: 205200
+    start: 224254
     task_name: verify-sound-construction
     worker_name: alice
   bob:
-  - end: 82800
+  - end: 90489
     requires:
     - draw-house
-    start: 46800
+    start: 51146
     task_name: estimate-building-costs
     worker_name: bob
-  - end: 115200
+  - end: 125897
     requires:
     - verify-budget
-    start: 97200
+    start: 106226
     task_name: lay-foundation
     worker_name: bob
-  - end: 133200
+  - end: 145568
     requires:
     - lay-foundation
-    start: 115200
+    start: 125897
     task_name: build-scaffolding
     worker_name: bob
-  - end: 169200
+  - end: 184911
     requires:
     - build-scaffolding
-    start: 133200
+    start: 145568
     task_name: build-other-walls
     worker_name: bob
-  - end: 205200
+  - end: 224254
     requires:
     - build-scaffolding
-    start: 169200
+    start: 184911
     task_name: build-floors
     worker_name: bob
   charlie:
-  - end: 82800
+  - end: 90489
     requires:
     - draw-house
-    start: 46800
+    start: 51146
     task_name: estimate-carpentry-costs
     worker_name: charlie
-  - end: 169200
+  - end: 184911
     requires:
     - build-scaffolding
-    start: 133200
+    start: 145568
     task_name: build-load-bearing-walls
     worker_name: charlie
-  - end: 187200
+  - end: 204584
     requires:
     - build-load-bearing-walls
-    start: 169200
+    start: 184913
     task_name: build-roof
     worker_name: charlie
-  - end: 223200
+  - end: 224255
     requires:
     - greenlight-interior
-    start: 187200
+    start: 204584
     task_name: build-custom-furniture
     worker_name: charlie
-  - end: 234000
+  cindy:
+  - end: 11803
+    requires: []
+    start: 0
+    task_name: sketch-requirements
+    worker_name: cindy
+  - end: 153437
+    requires:
+    - design-interior
+    start: 125897
+    task_name: greenlight-interior
+    worker_name: cindy
+  - end: 173108
+    requires:
+    - greenlight-interior
+    start: 153437
+    task_name: order-furniture
+    worker_name: cindy
+  david:
+  - end: 66883
+    requires:
+    - draw-house
+    start: 51146
+    task_name: estimate-design-costs
+    worker_name: david
+  - end: 125897
+    requires:
+    - draw-house
+    - verify-budget
+    start: 106226
+    task_name: design-interior
+    worker_name: david
+  elaine:
+  - end: 66883
+    requires:
+    - draw-house
+    start: 51146
+    task_name: estimate-electrical-costs
+    worker_name: elaine
+  - end: 224255
+    requires:
+    - build-load-bearing-walls
+    - build-other-walls
+    - build-roof
+    start: 204584
+    task_name: install-electricity
+    worker_name: elaine
+  frank:
+  - end: 106226
+    requires:
+    - estimate-building-costs
+    - estimate-carpentry-costs
+    - estimate-design-costs
+    - estimate-electrical-costs
+    - estimate-moving-costs
+    - estimate-plumbing-costs
+    start: 90489
+    task_name: verify-budget
+    worker_name: frank
+  mindy:
+  - end: 66883
+    requires:
+    - draw-house
+    start: 51146
+    task_name: estimate-moving-costs
+    worker_name: mindy
+  - end: 236058
     requires:
     - build-custom-furniture
     - build-load-bearing-walls
     - build-other-walls
     - order-furniture
-    start: 223200
+    start: 224255
     task_name: install-furniture
-    worker_name: charlie
-  cindy:
-  - end: 10800
-    requires: []
-    start: 0
-    task_name: sketch-requirements
-    worker_name: cindy
-  - end: 140400
-    requires:
-    - design-interior
-    start: 115200
-    task_name: greenlight-interior
-    worker_name: cindy
-  - end: 158400
-    requires:
-    - greenlight-interior
-    start: 140400
-    task_name: order-furniture
-    worker_name: cindy
-  david:
-  - end: 61200
-    requires:
-    - draw-house
-    start: 46800
-    task_name: estimate-design-costs
-    worker_name: david
-  - end: 115200
-    requires:
-    - draw-house
-    - verify-budget
-    start: 97200
-    task_name: design-interior
-    worker_name: david
-  elaine:
-  - end: 61200
-    requires:
-    - draw-house
-    start: 46800
-    task_name: estimate-electrical-costs
-    worker_name: elaine
-  - end: 205200
-    requires:
-    - build-load-bearing-walls
-    - build-other-walls
-    - build-roof
-    start: 187200
-    task_name: install-electricity
-    worker_name: elaine
-  frank:
-  - end: 97200
-    requires:
-    - estimate-building-costs
-    - estimate-carpentry-costs
-    - estimate-design-costs
-    - estimate-electrical-costs
-    - estimate-moving-costs
-    - estimate-plumbing-costs
-    start: 82800
-    task_name: verify-budget
-    worker_name: frank
-  mindy:
-  - end: 61200
-    requires:
-    - draw-house
-    start: 46800
-    task_name: estimate-moving-costs
     worker_name: mindy
-  - end: 241200
+  - end: 247860
     requires:
     - install-electricity
     - install-furniture
     - install-plumbing
     - verify-sound-construction
-    start: 234000
+    start: 239991
     task_name: move-personal-belongings
     worker_name: mindy
   peter:
-  - end: 61200
+  - end: 66883
     requires:
     - draw-house
-    start: 46800
+    start: 51146
     task_name: estimate-plumbing-costs
     worker_name: peter
-  - end: 205200
+  - end: 224255
     requires:
     - build-load-bearing-walls
     - build-other-walls
     - build-roof
-    start: 187200
+    start: 204584
     task_name: install-plumbing
     worker_name: peter

@@ -1,0 +1,208 @@
+workers:
+- name: alice
+  group: architect
+- name: bob
+  group: builder
+- name: charlie
+  group: builder, carpenter
+- name: cindy
+  group: client
+- name: david
+  group: designer
+- name: elaine
+  group: electrician
+- name: frank
+  group: finance
+- name: mindy
+  group: moving
+- name: peter
+  group: plumber
+tasks:
+- name: sketch-requirements
+  worker: cindy
+  duration:
+    lognormal:
+      p50: 3h
+      p95: 6h
+- name: draw-house
+  worker: architect
+  duration:
+    lognormal:
+      p50: 10h
+      p95: 20h
+  milestone: plans-ready
+  requires:
+  - sketch-requirements
+- name: estimate-building-costs
+  milestone: costs-ready
+  duration:
+    lognormal:
+      p50: 10h
+      p95: 20h
+  worker: builder
+  requires: draw-house
+- name: estimate-electrical-costs
+  milestone: costs-ready
+  duration:
+    lognormal:
+      p50: 4h
+      p95: 8h
+  worker: electrician
+  requires: draw-house
+- name: estimate-moving-costs
+  milestone: costs-ready
+  duration:
+    lognormal:
+      p50: 4h
+      p95: 8h
+  worker: moving
+  requires: draw-house
+- name: estimate-plumbing-costs
+  milestone: costs-ready
+  duration:
+    lognormal:
+      p50: 4h
+      p95: 8h
+  worker: plumber
+  requires: draw-house
+- name: estimate-design-costs
+  milestone: costs-ready
+  duration:
+    lognormal:
+      p50: 4h
+      p95: 8h
+  worker: designer
+  requires: draw-house
+- name: estimate-carpentry-costs
+  milestone: costs-ready
+  duration:
+    lognormal:
+      p50: 10h
+      p95: 20h
+  worker: carpenter
+  requires: draw-house
+- name: verify-budget
+  duration:
+    lognormal:
+      p50: 4h
+      p95: 8h
+  worker: finance
+  milestone: greenlight-project
+  requires: costs-ready
+- name: lay-foundation
+  worker: builder
+  duration:
+    lognormal:
+      p50: 5h
+      p95: 10h
+  requires: greenlight-project
+- name: build-scaffolding
+  worker: builder
+  duration:
+    lognormal:
+      p50: 5h
+      p95: 10h
+  requires: lay-foundation
+- name: build-load-bearing-walls
+  worker: builder
+  milestone: build-walls, outer-house-ready
+  duration:
+    lognormal:
+      p50: 10h
+      p95: 20h
+  requires: build-scaffolding
+- name: build-other-walls
+  worker: builder
+  milestone: build-walls, outer-house-ready
+  duration:
+    lognormal:
+      p50: 10h
+      p95: 20h
+  requires: build-scaffolding
+- name: build-roof
+  worker: builder
+  milestone: outer-house-ready
+  requires: build-load-bearing-walls
+  duration:
+    lognormal:
+      p50: 5h
+      p95: 10h
+- name: design-interior
+  worker: designer
+  duration:
+    lognormal:
+      p50: 5h
+      p95: 10h
+  requires: draw-house, greenlight-project
+- name: greenlight-interior
+  worker: client
+  duration:
+    lognormal:
+      p50: 7h
+      p95: 14h
+  requires: design-interior
+- name: order-furniture
+  worker: [designer, client, finance]
+  duration:
+    lognormal:
+      p50: 5h
+      p95: 10h
+  milestone: furniture-ready
+  requires: greenlight-interior
+- name: build-custom-furniture
+  worker: carpenter
+  milestone: furniture-ready
+  duration:
+    lognormal:
+      p50: 5h
+      p95: 10h
+  requires: greenlight-interior
+- name: install-furniture
+  worker: [builder, moving]
+  duration:
+    lognormal:
+      p50: 3h
+      p95: 6h
+  milestone: house-ready
+  requires:
+  - furniture-ready
+  - build-walls
+- name: build-floors
+  worker: builder
+  duration:
+    lognormal:
+      p50: 10h
+      p95: 20h
+  requires: build-scaffolding
+- name: install-plumbing
+  worker: plumber
+  duration:
+    lognormal:
+      p50: 5h
+      p95: 10h
+  milestone: house-ready
+  requires: outer-house-ready
+- name: install-electricity
+  worker: electrician
+  duration:
+    lognormal:
+      p50: 5h
+      p95: 10h
+  milestone: house-ready
+  requires: outer-house-ready
+- name: verify-sound-construction
+  worker: architect
+  duration:
+    lognormal:
+      p50: 4h
+      p95: 8h
+  milestone: house-ready
+  requires: build-roof, build-load-bearing-walls, build-floors
+- name: move-personal-belongings
+  worker: moving
+  duration:
+    lognormal:
+      p50: 2h
+      p95: 4h
+  milestone: all-done
+  requires: house-ready

@@ -37,7 +37,11 @@ class _RawLogNormalDist(BaseModel):
     p95: Union[str, int]
 
 
-_NumberOrDist = Union[int, _RawLogNormalDist]
+class _RawDist(BaseModel):
+    lognormal: _RawLogNormalDist
+
+
+_NumberOrDist = Union[int, _RawDist]
 
 
 class _RawTask(BaseModel):
@@ -67,10 +71,11 @@ def _parse_dist(x: Union[str, _NumberOrDist]) -> dist.Dist:
 
     assert not isinstance(x, float)
 
-    assert isinstance(x, _RawLogNormalDist)
+    assert isinstance(x, _RawDist)
+    assert x.lognormal
     return dist.LogNormal(
-        p50=_parse_humanized_duration(x.p50),
-        p95=_parse_humanized_duration(x.p95),
+        p50=_parse_humanized_duration(x.lognormal.p50),
+        p95=_parse_humanized_duration(x.lognormal.p95),
     )
 
 
@@ -281,6 +286,18 @@ def model_to_plannable_tasks(m: Model) -> List[planner.Task]:
         )
 
     return rv
+
+
+def model_has_uncertainty(m: Model) -> bool:
+    for t in m.tasks.values():
+        if t.duration.uncertain:
+            return True
+
+    return False
+
+
+def model_to_duration_distributions(m: Model) -> Dict[str, dist.Dist]:
+    return {t.name: t.duration for t in m.tasks.values()}
 
 
 def parse_yaml_to_plannable_tasks(s: str) -> List[planner.Task]:
